@@ -1,6 +1,4 @@
-export const loops = `# Resumo de Conteúdos
-
-### Laços de Repetição
+export const loops = `### Laços de Repetição
 
 Um laço FOR é uma estrutura que permite repetir um bloco de código um número específico de vezes.
 

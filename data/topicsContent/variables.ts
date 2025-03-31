@@ -1,6 +1,4 @@
-export const t3Variables = `### Variáveis
-
-Uma variável é um espaço na memória do computador que armazena um valor que pode ser alterado durante a execução do programa.
+export const variables = `Uma variável é um espaço na memória do computador que armazena um valor que pode ser alterado durante a execução do programa.
 
 - Tipos Primitivos:
     - **int**: números inteiros (ex: \`int idade = 25;\`)

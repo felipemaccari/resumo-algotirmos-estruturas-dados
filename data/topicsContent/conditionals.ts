@@ -1,6 +1,4 @@
-export const t9Conditionals = `### Estruturas Condicionais
-
-Em Java, utilizamos estruturas condicionais para tomar decisões com base em expressões lógicas.
+export const conditionals = `Em Java, utilizamos estruturas condicionais para tomar decisões com base em expressões lógicas.
 
 ---
 

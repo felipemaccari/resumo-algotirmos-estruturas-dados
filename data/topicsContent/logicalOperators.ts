@@ -1,5 +1,4 @@
-export const t6LogicalOperators =
-  "### **Operadores Lógicos**\n\n" +
+export const logicalOperators =
   "Operadores lógicos são usados para realizar operações booleanas em Java.\n\n" +
   "| **Operador** | **Descrição** | **Exemplo** | **Resultado** |\n" +
   "|-------------|--------------|------------|-------------|\n" +

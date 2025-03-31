@@ -1,5 +1,4 @@
-export const t5RelationalOperators =
-  "### **Operadores Relacionais**\n\n" +
+export const relationalOperators =
   "Operadores relacionais são usados para comparar valores em Java. Eles retornam um valor booleano (`true` ou `false`).\n\n" +
   "| **Operador** | **Descrição**          | **Exemplo**  | **Resultado**          |\n" +
   "|--------------|------------------------|--------------|------------------------|\n" +

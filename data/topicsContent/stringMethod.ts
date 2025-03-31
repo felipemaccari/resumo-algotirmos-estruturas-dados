@@ -1,8 +1,4 @@
-export const stringMethod = `# Resumo de Conteúdos
-
-### Métodos de String
-
-Alguns dos métodos para usar com String, existem outros disponíveis
+export const stringMethod = `Alguns dos métodos para usar com String, existem outros disponíveis
 
 \`\`\`java
 public class Main {

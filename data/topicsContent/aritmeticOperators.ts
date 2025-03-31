@@ -1,5 +1,4 @@
-export const t4AritmeticOperators =
-  "### **Operadores aritméticos**\n\n" +
+export const aritmeticOperators =
   "Operadores aritméticos são usados para realizar operações matemáticas. Em Java temos:\n\n" +
   "| **Operador** | **Descrição**          | **Exemplo**  | **Resultado**          |\n" +
   "|--------------|------------------------|--------------|------------------------|\n" +

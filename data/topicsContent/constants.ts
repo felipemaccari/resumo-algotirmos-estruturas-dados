@@ -1,6 +1,4 @@
-export const t8Constants = `### Constantes
-
-Em Java, usamos a palavra-chave \`final\` para declarar constantes, ou seja, variáveis cujo valor não pode ser alterado após a atribuição.
+export const constants = `Em Java, usamos a palavra-chave \`final\` para declarar constantes, ou seja, variáveis cujo valor não pode ser alterado após a atribuição.
 
 - O uso de constantes torna o código mais legível e evita erros.
 - Convenção: constantes são geralmente nomeadas em **caixa alta** com **underscores**.

@@ -113,29 +113,6 @@ export default function Home() {
                 </div>
 
                 <div className="flex flex-1 flex-col overflow-hidden">
-                  <div className="flex items-center border-b border-gray-100 px-4 py-2 dark:border-gray-800">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-8 text-xs"
-                        >
-                          Visualizar por{" "}
-                          <ChevronRight className="ml-1 h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start">
-                        <DropdownMenuItem
-                          className="flex items-center gap-2"
-                          onClick={() => setSearchTerm("")}
-                        >
-                          <FileText className="h-4 w-4" /> Todos os tópicos
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-
                   <div className="flex-1 overflow-y-auto p-2">
                     <AnimatePresence initial={false}>
                       <ul className="space-y-1">

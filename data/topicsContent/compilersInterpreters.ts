@@ -1,5 +1,4 @@
-export const t7CompilersInterpreters =
-  "### **Compiladores e Interpretadores**\n\n" +
+export const compilersInterpreters =
   "Formas de distribuição da aplicação\n\n" +
   "- **Compiladores**: Um compilador é um programa que transforma o código-fonte (escrito em uma linguagem de programação de **alto nível**, como Java ou C++) em código de máquina (linguagem de **baixo nível** que o computador entende).\n" +
   "    - O compilador lê o código-fonte inteiro.\n" +

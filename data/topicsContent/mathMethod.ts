@@ -1,7 +1,4 @@
-export const mathMethod = `# Resumo de Conteúdos
-
-### Métodos Math
-
+export const mathMethod = `
 Alguns dos métodos para usar com Math, existem outros disponíveis
 
 \`\`\`java

@@ -1,100 +1,108 @@
 import { Topic } from "@/app/page";
-import { t1Algorythms } from "./topicsContent/t1Algorythms";
-import { t2ProgrammingLanguages } from "./topicsContent/t2ProgrammingLanguages";
-import { t3Variables } from "./topicsContent/t3Variables";
-import { t4AritmeticOperators } from "./topicsContent/t4AritmeticOperators";
-import { t5RelationalOperators } from "./topicsContent/t5RelationalOperators";
-import { t6LogicalOperators } from "./topicsContent/t6LogicalOperators";
-import { t7CompilersInterpreters } from "./topicsContent/t7CompilersInterpreters";
-import { t8Constants } from "./topicsContent/t8Constants";
-import { t9Conditionals } from "./topicsContent/t9Conditionals";
+import { algorythms } from "./topicsContent/algorythms";
+import { programmingLanguages } from "./topicsContent/programmingLanguages";
+import { variables } from "./topicsContent/variables";
+import { aritmeticOperators } from "./topicsContent/aritmeticOperators";
+import { relationalOperators } from "./topicsContent/relationalOperators";
+import { logicalOperators } from "./topicsContent/logicalOperators";
+import { compilersInterpreters } from "./topicsContent/compilersInterpreters";
+import { constants } from "./topicsContent/constants";
+import { conditionals } from "./topicsContent/conditionals";
 import { stringMethod } from "./topicsContent/stringMethod";
 import { mathMethod } from "./topicsContent/mathMethod";
 import { loops } from "./topicsContent/loops";
+import { loopsWhileMethod } from "./topicsContent/loopsWhileMethod";
 
 export const initialTopics: Topic[] = [
   {
     id: 5,
     title: "Algoritmos",
     description: "Introdução aos algoritmos",
-    content: t1Algorythms,
+    content: algorythms,
     tags: ["algoritmos", "lógica", "programação"],
   },
   {
     id: 6,
     title: "Linguagens de Programação",
     description: "Tipos de linguagens e suas características",
-    content: t2ProgrammingLanguages,
+    content: programmingLanguages,
     tags: ["linguagens", "programação", "tipos"],
   },
   {
     id: 7,
     title: "Variáveis",
     description: "Definição e uso de variáveis",
-    content: t3Variables,
+    content: variables,
     tags: ["variáveis", "programação", "dados"],
   },
   {
     id: 17,
     title: "Constantes",
     description: "Definição e uso de constantes",
-    content: t8Constants,
+    content: constants,
     tags: ["constantes", "programação", "dados"],
   },
   {
     id: 8,
     title: "Operadores Aritméticos",
     description: "Uso de operadores matemáticos",
-    content: t4AritmeticOperators,
+    content: aritmeticOperators,
     tags: ["operadores", "aritméticos", "matemática"],
   },
   {
     id: 9,
     title: "Operadores Relacionais",
     description: "Comparação entre valores",
-    content: t5RelationalOperators,
+    content: relationalOperators,
     tags: ["operadores", "relacionais", "comparação"],
   },
   {
     id: 10,
     title: "Operadores Lógicos",
     description: "Condições e expressões lógicas",
-    content: t6LogicalOperators,
+    content: logicalOperators,
     tags: ["operadores", "lógicos", "condições"],
   },
   {
     id: 11,
     title: "Compiladores e Interpretadores",
     description: "Diferença entre compiladores e interpretadores",
-    content: t7CompilersInterpreters,
+    content: compilersInterpreters,
     tags: ["compiladores", "interpretadores", "execução"],
   },
   {
     id: 12,
     title: "Estruturas Condicionais",
     description: "Exemplos práticos de IF e Switch-Case",
-    content: t9Conditionals,
+    content: conditionals,
     tags: ["condicional", "if", "switch-case"],
   },
   {
     id: 14,
-    title: "String",
+    title: "Método String",
     description: "Manipulação de strings",
     content: stringMethod,
     tags: ["strings", "texto", "manipulação"],
   },
   {
     id: 15,
-    title: "Math",
+    title: "Método Math",
     description: "Operações matemáticas em programação",
     content: mathMethod,
     tags: ["matemática", "cálculo", "math"],
   },
   {
     id: 16,
-    title: "For",
+    title: "Laços de Repetição - For",
     description: "Uso do laço de repetição For",
     content: loops,
     tags: ["for", "loop", "repetição"],
+  },
+  {
+    id: 18,
+    title: "Laços de Repetição - Do, Do-While",
+    description: "Uso dos laços de repetição Do e Do-While",
+    content: loopsWhileMethod,
+    tags: ["for", "loop", "do", "do-while", "repetição"],
   },
 ];
