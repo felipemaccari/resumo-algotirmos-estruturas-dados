@@ -106,3 +106,19 @@ export const initialTopics: Topic[] = [
     tags: ["for", "loop", "do", "do-while", "repetição"],
   },
 ];
+
+export function searchTopics(searchTerm: string): Topic[] {
+  if (!searchTerm) return initialTopics;
+
+  const normalizedSearch = searchTerm.toLowerCase();
+
+  return initialTopics.filter((topic) => {
+    const titleMatch = topic.title.toLowerCase().includes(normalizedSearch);
+    const descriptionMatch = topic.description
+      .toLowerCase()
+      .includes(normalizedSearch);
+    const contentMatch = topic.content.toLowerCase().includes(normalizedSearch);
+
+    return titleMatch || descriptionMatch || contentMatch;
+  });
+}

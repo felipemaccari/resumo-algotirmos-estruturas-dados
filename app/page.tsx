@@ -2,25 +2,12 @@
 
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
-import { initialTopics } from "@/data/topics";
+import { initialTopics, searchTopics } from "@/data/topics";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ChevronLeft,
-  ChevronRight,
-  FileText,
-  Menu,
-  Search,
-  X,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Menu, Search, X } from "lucide-react";
 import { useRef, useState } from "react";
 
 export interface Topic {
@@ -33,10 +20,10 @@ export interface Topic {
 
 export default function Home() {
   // Estados principais
-  const [topics] = useLocalStorage<Topic[]>("topics", initialTopics);
+  const [topics, setTopics] = useLocalStorage<Topic[]>("topics", initialTopics);
   const [selectedTopic, setSelectedTopic] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredTopics, setFilteredTopics] = useState(topics);
+  const [filteredTopics, setFilteredTopics] = useState<Topic[]>(topics);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [presentationMode, setPresentationMode] = useState(false);
 
@@ -60,6 +47,13 @@ export default function Home() {
     if (currentTopicIndex > 0) {
       setSelectedTopic(topics[currentTopicIndex - 1].id);
     }
+  };
+
+  // Atualizar o filteredTopics quando searchTerm mudar
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    setFilteredTopics(searchTopics(newSearchTerm));
   };
 
   return (
@@ -107,7 +101,7 @@ export default function Home() {
                       placeholder="Pesquisar tópicos..."
                       className="w-full rounded-md border border-gray-200 bg-gray-50 py-2 pl-10 pr-4 text-sm outline-none transition-all focus:border-gray-300 focus:ring-1 focus:ring-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:focus:border-gray-600 dark:focus:ring-gray-600"
                       value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
+                      onChange={handleSearch}
                     />
                   </div>
                 </div>
