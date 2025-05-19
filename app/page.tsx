@@ -9,6 +9,8 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Menu, Search, X } from "lucide-react";
 import { useRef, useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { GradeCalculator } from "@/components/grade-calculator";
 
 export interface Topic {
   id: number;
@@ -83,170 +85,202 @@ export default function Home() {
           </div>
         </header>
 
-        <div className="flex flex-1 overflow-hidden">
-          <AnimatePresence initial={false}>
-            {sidebarOpen && (
-              <motion.div
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 320, opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="flex flex-col border-r border-gray-100 dark:border-gray-800"
-              >
-                <div className="border-b border-gray-100 p-4 dark:border-gray-800">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                    <input
-                      type="text"
-                      placeholder="Pesquisar tópicos..."
-                      className="w-full rounded-md border border-gray-200 bg-gray-50 py-2 pl-10 pr-4 text-sm outline-none transition-all focus:border-gray-300 focus:ring-1 focus:ring-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:focus:border-gray-600 dark:focus:ring-gray-600"
-                      value={searchTerm}
-                      onChange={handleSearch}
-                    />
-                  </div>
-                </div>
+        <div className="flex-1 overflow-y-auto">
+          <div
+            className={`mx-auto max-w-7xl ${presentationMode ? "p-12" : "p-8"}`}
+          >
+            <Tabs defaultValue="resumo" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="resumo">Resumo</TabsTrigger>
+                <TabsTrigger value="calculadora">Calculadora</TabsTrigger>
+              </TabsList>
+              <TabsContent value="resumo">
+                <div className="flex flex-1 overflow-hidden">
+                  <AnimatePresence initial={false}>
+                    {sidebarOpen && (
+                      <motion.div
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: 320, opacity: 1 }}
+                        exit={{ width: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex flex-col border-r border-gray-100 dark:border-gray-800"
+                      >
+                        <div className="border-b border-gray-100 p-4 dark:border-gray-800">
+                          <div className="relative">
+                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                            <input
+                              type="text"
+                              placeholder="Pesquisar tópicos..."
+                              className="w-full rounded-md border border-gray-200 bg-gray-50 py-2 pl-10 pr-4 text-sm outline-none transition-all focus:border-gray-300 focus:ring-1 focus:ring-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:focus:border-gray-600 dark:focus:ring-gray-600"
+                              value={searchTerm}
+                              onChange={handleSearch}
+                            />
+                          </div>
+                        </div>
 
-                <div className="flex flex-1 flex-col overflow-hidden">
-                  <div className="flex-1 overflow-y-auto p-2">
-                    <AnimatePresence initial={false}>
-                      <ul className="space-y-1">
-                        {filteredTopics.map((topic) => (
-                          <motion.li
-                            key={topic.id}
-                            initial={{ opacity: 0, y: 10 }}
+                        <div className="flex-1 overflow-y-auto">
+                          <div className="p-4">
+                            <AnimatePresence initial={false}>
+                              <ul className="space-y-2">
+                                {filteredTopics.map((topic) => (
+                                  <motion.li
+                                    key={topic.id}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 20 }}
+                                    transition={{ duration: 0.2 }}
+                                  >
+                                    <div>
+                                      <button
+                                        onClick={() =>
+                                          setSelectedTopic(topic.id)
+                                        }
+                                        className={`w-full rounded-lg p-3 text-left transition-colors ${
+                                          selectedTopic === topic.id
+                                            ? "bg-gray-100 dark:bg-gray-800"
+                                            : "hover:bg-gray-50 dark:hover:bg-gray-900"
+                                        }`}
+                                      >
+                                        <div>
+                                          <h3 className="font-medium">
+                                            {topic.title}
+                                          </h3>
+                                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                            {topic.description}
+                                          </p>
+
+                                          <div className="mt-1 flex flex-wrap gap-1">
+                                            {topic.tags
+                                              .slice(0, 2)
+                                              .map((tag, index) => (
+                                                <span
+                                                  key={index}
+                                                  className="inline-block rounded-full bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                                                >
+                                                  {tag}
+                                                </span>
+                                              ))}
+                                            {topic.tags.length > 2 && (
+                                              <span className="inline-block rounded-full bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                                                +{topic.tags.length - 2}
+                                              </span>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </button>
+                                    </div>
+                                  </motion.li>
+                                ))}
+
+                                {filteredTopics.length === 0 && (
+                                  <li className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
+                                    Nenhum tópico encontrado para "{searchTerm}"
+                                  </li>
+                                )}
+                              </ul>
+                            </AnimatePresence>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  {/* Conteúdo */}
+                  <div
+                    ref={contentRef}
+                    className={`flex-1 overflow-y-auto transition-all ${
+                      presentationMode ? "bg-white dark:bg-black" : ""
+                    }`}
+                  >
+                    <div
+                      className={`mx-auto max-w-3xl ${
+                        presentationMode ? "p-12" : "p-8"
+                      }`}
+                    >
+                      {currentTopic ? (
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={`${currentTopic.id}-"view"`}
+                            initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.2 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3 }}
                           >
-                            <div className="group relative rounded-md">
-                              <button
-                                onClick={() => setSelectedTopic(topic.id)}
-                                className={`w-full rounded-md px-4 py-3 text-left transition-colors ${
-                                  selectedTopic === topic.id
-                                    ? "bg-gray-100 dark:bg-gray-800"
-                                    : "hover:bg-gray-50 dark:hover:bg-gray-900"
-                                }`}
-                              >
-                                <h3 className="text-sm font-medium">
-                                  {topic.title}
-                                </h3>
-                                <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                  {topic.description}
+                            <div className="mb-8 flex items-center justify-between">
+                              <div>
+                                <h2 className="text-3xl font-medium">
+                                  {currentTopic.title}
+                                </h2>
+                                <p className="mt-2 text-gray-600 dark:text-gray-400">
+                                  {currentTopic.description}
                                 </p>
 
-                                <div className="mt-1 flex flex-wrap gap-1">
-                                  {topic.tags.slice(0, 2).map((tag, index) => (
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                  {currentTopic.tags.map((tag, index) => (
                                     <span
                                       key={index}
-                                      className="inline-block rounded-full bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+                                      className="inline-block rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-700 dark:bg-gray-800 dark:text-gray-300"
                                     >
                                       {tag}
                                     </span>
                                   ))}
-                                  {topic.tags.length > 2 && (
-                                    <span className="inline-block rounded-full bg-gray-100 px-1.5 py-0.5 text-[10px] text-gray-700 dark:bg-gray-800 dark:text-gray-300">
-                                      +{topic.tags.length - 2}
-                                    </span>
-                                  )}
                                 </div>
-                              </button>
+                              </div>
                             </div>
-                          </motion.li>
-                        ))}
 
-                        {filteredTopics.length === 0 && (
-                          <li className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
-                            Nenhum tópico encontrado para "{searchTerm}"
-                          </li>
-                        )}
-                      </ul>
-                    </AnimatePresence>
+                            <MarkdownRenderer content={currentTopic.content} />
+
+                            {/* Navegação entre tópicos */}
+                            <div className="mt-12 flex items-center justify-between border-t border-gray-100 pt-6 dark:border-gray-800">
+                              <Button
+                                variant="ghost"
+                                onClick={goToPreviousTopic}
+                                disabled={currentTopicIndex === 0}
+                                className="flex items-center gap-1"
+                              >
+                                <ChevronLeft className="h-4 w-4" />
+                                {currentTopicIndex > 0 && (
+                                  <span>
+                                    {topics[currentTopicIndex - 1].title}
+                                  </span>
+                                )}
+                              </Button>
+
+                              <Button
+                                variant="ghost"
+                                onClick={goToNextTopic}
+                                disabled={
+                                  currentTopicIndex === topics.length - 1
+                                }
+                                className="flex items-center gap-1"
+                              >
+                                {currentTopicIndex < topics.length - 1 && (
+                                  <span>
+                                    {topics[currentTopicIndex + 1].title}
+                                  </span>
+                                )}
+                                <ChevronRight className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </motion.div>
+                        </AnimatePresence>
+                      ) : (
+                        <div className="flex h-full items-center justify-center">
+                          <p className="text-gray-500 dark:text-gray-400">
+                            Selecione um tópico para visualizar o conteúdo
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Conteúdo */}
-          <div
-            ref={contentRef}
-            className={`flex-1 overflow-y-auto transition-all ${
-              presentationMode ? "bg-white dark:bg-black" : ""
-            }`}
-          >
-            {currentTopic ? (
-              <div
-                className={`mx-auto max-w-3xl ${
-                  presentationMode ? "p-12" : "p-8"
-                }`}
-              >
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`${currentTopic.id}-"view"`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="mb-8 flex items-center justify-between">
-                      <div>
-                        <h2 className="text-3xl font-medium">
-                          {currentTopic.title}
-                        </h2>
-                        <p className="mt-2 text-gray-600 dark:text-gray-400">
-                          {currentTopic.description}
-                        </p>
-
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {currentTopic.tags.map((tag, index) => (
-                            <span
-                              key={index}
-                              className="inline-block rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-700 dark:bg-gray-800 dark:text-gray-300"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    <MarkdownRenderer content={currentTopic.content} />
-
-                    {/* Navegação entre tópicos */}
-                    <div className="mt-12 flex items-center justify-between border-t border-gray-100 pt-6 dark:border-gray-800">
-                      <Button
-                        variant="ghost"
-                        onClick={goToPreviousTopic}
-                        disabled={currentTopicIndex === 0}
-                        className="flex items-center gap-1"
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                        {currentTopicIndex > 0 && (
-                          <span>{topics[currentTopicIndex - 1].title}</span>
-                        )}
-                      </Button>
-
-                      <Button
-                        variant="ghost"
-                        onClick={goToNextTopic}
-                        disabled={currentTopicIndex === topics.length - 1}
-                        className="flex items-center gap-1"
-                      >
-                        {currentTopicIndex < topics.length - 1 && (
-                          <span>{topics[currentTopicIndex + 1].title}</span>
-                        )}
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <p className="text-gray-500 dark:text-gray-400">
-                  Selecione um tópico para visualizar o conteúdo
-                </p>
-              </div>
-            )}
+              </TabsContent>
+              <TabsContent value="calculadora">
+                <div className="mx-auto max-w-3xl">
+                  <GradeCalculator />
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
 
