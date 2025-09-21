@@ -1,6 +1,7 @@
 "use client";
 
 import { MarkdownRenderer } from "@/components/markdown-renderer";
+import { Quiz } from "@/components/quiz";
 import { SubjectSelector } from "@/components/subject-selector";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,6 +11,7 @@ import {
   getSubjectById,
   searchTopicsInSubject,
 } from "@/data/subjects";
+import { pieQuiz } from "@/data/quiz";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
@@ -151,8 +153,17 @@ export default function Home() {
             className={`mx-auto max-w-7xl ${presentationMode ? "p-12" : "p-8"}`}
           >
             <Tabs defaultValue="resumo" className="w-full">
-              <TabsList className="grid w-full grid-cols-1">
+              <TabsList
+                className={`grid w-full ${
+                  selectedSubject?.id === "projeto-integrador-extensionista"
+                    ? "grid-cols-2"
+                    : "grid-cols-1"
+                }`}
+              >
                 <TabsTrigger value="resumo">Resumo</TabsTrigger>
+                {selectedSubject?.id === "projeto-integrador-extensionista" && (
+                  <TabsTrigger value="questionario">Questionário</TabsTrigger>
+                )}
               </TabsList>
               <TabsContent value="resumo">
                 <div className="flex flex-1 overflow-hidden">
@@ -335,6 +346,19 @@ export default function Home() {
                   </div>
                 </div>
               </TabsContent>
+              {selectedSubject?.id === "projeto-integrador-extensionista" && (
+                <TabsContent value="questionario">
+                  <Quiz
+                    questions={pieQuiz}
+                    onComplete={(result) => {
+                      toast({
+                        title: "Questionário Concluído!",
+                        description: `Você acertou ${result.correctAnswers} de ${result.totalQuestions} questões (${result.percentage}%)`,
+                      });
+                    }}
+                  />
+                </TabsContent>
+              )}
             </Tabs>
           </div>
         </div>
