@@ -1,16 +1,27 @@
 "use client";
 
 import { MarkdownRenderer } from "@/components/markdown-renderer";
+import { SubjectSelector } from "@/components/subject-selector";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
-import { initialTopics, searchTopics } from "@/data/topics";
+import {
+  Subject,
+  getSubjectById,
+  searchTopicsInSubject,
+} from "@/data/subjects";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Menu, Search, X } from "lucide-react";
-import { useRef, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GradeCalculator } from "@/components/grade-calculator";
+import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+  Search,
+  X,
+} from "lucide-react";
+import React, { useRef, useState } from "react";
 
 export interface Topic {
   id: number;
@@ -22,10 +33,14 @@ export interface Topic {
 
 export default function Home() {
   // Estados principais
-  const [topics, setTopics] = useLocalStorage<Topic[]>("topics", initialTopics);
+  const [selectedSubject, setSelectedSubject] = useLocalStorage<Subject | null>(
+    "selectedSubject",
+    null
+  );
+  const [topics, setTopics] = useState<Topic[]>([]);
   const [selectedTopic, setSelectedTopic] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredTopics, setFilteredTopics] = useState<Topic[]>(topics);
+  const [filteredTopics, setFilteredTopics] = useState<Topic[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [presentationMode, setPresentationMode] = useState(false);
 
@@ -33,10 +48,35 @@ export default function Home() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { toast } = useToast();
 
+  // Atualizar tópicos quando a matéria selecionada mudar
+  React.useEffect(() => {
+    if (selectedSubject) {
+      setTopics(selectedSubject.topics);
+      setFilteredTopics(selectedSubject.topics);
+      if (selectedSubject.topics.length > 0) {
+        setSelectedTopic(selectedSubject.topics[0].id);
+      }
+    }
+  }, [selectedSubject]);
+
   const currentTopic = topics.find((topic) => topic.id === selectedTopic);
   const currentTopicIndex = topics.findIndex(
     (topic) => topic.id === selectedTopic
   );
+
+  // Função para selecionar matéria
+  const handleSubjectSelect = (subject: Subject) => {
+    setSelectedSubject(subject);
+  };
+
+  // Função para voltar à seleção de matéria
+  const handleBackToSubjects = () => {
+    setSelectedSubject(null);
+    setTopics([]);
+    setFilteredTopics([]);
+    setSelectedTopic(1);
+    setSearchTerm("");
+  };
 
   // Navegação entre tópicos
   const goToNextTopic = () => {
@@ -55,8 +95,17 @@ export default function Home() {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchTerm = e.target.value;
     setSearchTerm(newSearchTerm);
-    setFilteredTopics(searchTopics(newSearchTerm));
+    if (selectedSubject) {
+      setFilteredTopics(
+        searchTopicsInSubject(selectedSubject.id, newSearchTerm)
+      );
+    }
   };
+
+  // Se nenhuma matéria foi selecionada, mostrar o seletor
+  if (!selectedSubject) {
+    return <SubjectSelector onSubjectSelect={handleSubjectSelect} />;
+  }
 
   return (
     <div
@@ -67,6 +116,15 @@ export default function Home() {
       <div className="mx-auto flex h-screen max-w-7xl flex-col overflow-hidden">
         <header className="flex items-center justify-between border-b border-gray-100 px-4 py-3 dark:border-gray-800 sm:px-6">
           <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleBackToSubjects}
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Voltar às Matérias
+            </Button>
             {isMobile && (
               <Button
                 variant="ghost"
@@ -83,6 +141,9 @@ export default function Home() {
               </Button>
             )}
           </div>
+          <div className="text-sm text-gray-600 dark:text-gray-400">
+            {selectedSubject.name}
+          </div>
         </header>
 
         <div className="flex-1 overflow-y-auto">
@@ -90,9 +151,8 @@ export default function Home() {
             className={`mx-auto max-w-7xl ${presentationMode ? "p-12" : "p-8"}`}
           >
             <Tabs defaultValue="resumo" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
+              <TabsList className="grid w-full grid-cols-1">
                 <TabsTrigger value="resumo">Resumo</TabsTrigger>
-                <TabsTrigger value="calculadora">Calculadora</TabsTrigger>
               </TabsList>
               <TabsContent value="resumo">
                 <div className="flex flex-1 overflow-hidden">
@@ -275,16 +335,10 @@ export default function Home() {
                   </div>
                 </div>
               </TabsContent>
-              <TabsContent value="calculadora">
-                <div className="mx-auto max-w-3xl">
-                  <GradeCalculator />
-                </div>
-              </TabsContent>
             </Tabs>
           </div>
         </div>
 
-        {/* Controles do modo de apresentação */}
         {presentationMode && (
           <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-4 rounded-full bg-white/90 px-6 py-3 shadow-lg backdrop-blur-sm dark:bg-gray-900/90">
             <Button
