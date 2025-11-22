@@ -12,6 +12,18 @@ import { stringMethod } from "./topicsContent/stringMethod";
 import { mathMethod } from "./topicsContent/mathMethod";
 import { loops } from "./topicsContent/loops";
 import { loopsWhileMethod } from "./topicsContent/loopsWhileMethod";
+import { webRequests } from "./topicsContent/webRequests";
+import { systemArchitecture } from "./topicsContent/systemArchitecture";
+import { postgresqlDatabase } from "./topicsContent/postgresqlDatabase";
+import { devTools } from "./topicsContent/devTools";
+import { deployEnvironments } from "./topicsContent/deployEnvironments";
+import { authentication } from "./topicsContent/authentication";
+import { cantinaProject } from "./topicsContent/cantinaProject";
+import { restApi } from "./topicsContent/restApi";
+import { keyConcepts } from "./topicsContent/keyConcepts";
+import { reactQuery } from "./topicsContent/reactQuery";
+import { frontendReact } from "./topicsContent/frontendReact";
+import { reactHookForm } from "./topicsContent/reactHookForm";
 
 export interface Subject {
   id: string;
@@ -130,203 +142,85 @@ export const subjects: Subject[] = [
         title: "Fluxo de Requisições Web",
         description:
           "Processo completo de requisições web do cliente ao servidor",
-        content: `## 🌐 Fluxo de Requisições Web
-
-### Processo Completo:
-1. **Cliente/Browser** - Digita URL no navegador
-2. **Servidor DNS** - Resolve o domínio para IP
-3. **Servidor Backend** - Recebe requisição e retorna arquivos (HTML, CSS, JS)
-
-### Detalhamento:
-- O navegador envia uma requisição HTTP para o servidor
-- O DNS converte o nome do domínio em um endereço IP
-- O servidor processa a requisição e retorna os recursos necessários
-- O navegador renderiza a página com os arquivos recebidos`,
+        content: webRequests,
         tags: ["web", "requisições", "http", "dns"],
       },
       {
         id: 21,
         title: "Arquitetura do Sistema",
         description: "Tecnologias e estrutura do sistema de cantina",
-        content: `## 🏗️ Arquitetura do Sistema
-
-### Tecnologias Principais:
-- **Backend**: NestJS (Framework Node.js)
-- **Banco de Dados**: PostgreSQL (Relacional)
-- **ORM**: Prisma
-- **Containerização**: Docker + Docker Compose
-- **Arquitetura**: REST API
-
-### Estrutura NestJS:
-- **Controller** - Recebe requisições HTTP, processa parâmetros e retorna respostas
-- **Service** - Contém lógica de negócio, validações e interação com banco
-- **Module** - Agrupa controllers e providers por domínio
-
-### Vantagens da Arquitetura:
-- Separação clara de responsabilidades
-- Facilita manutenção e testes
-- Escalabilidade e performance`,
+        content: systemArchitecture,
         tags: ["arquitetura", "nestjs", "postgresql", "prisma", "docker"],
       },
       {
         id: 22,
         title: "Banco de Dados PostgreSQL",
         description: "Estrutura e relacionamentos do banco de dados",
-        content: `## 🗄️ Banco de Dados
-
-### Por que PostgreSQL?
-- Estrutura baseada em tabelas com colunas e tipos definidos
-- Garante consistência e integridade dos dados
-- Ideal para módulo de "Cadastros" (Produtos, Categorias, Usuários)
-
-### Relacionamentos Principais:
-- **Produtos ↔ Categorias**: Um-para-muitos (1:N)
-  - Uma categoria pode ter vários produtos
-
-### Vantagens do Banco Relacional:
-- ACID (Atomicidade, Consistência, Isolamento, Durabilidade)
-- Integridade referencial
-- Consultas complexas com JOINs
-- Padronização de dados`,
+        content: postgresqlDatabase,
         tags: ["postgresql", "banco-dados", "relacional", "relacionamentos"],
       },
       {
         id: 23,
         title: "Ferramentas de Desenvolvimento",
         description: "Docker Compose e Prisma para desenvolvimento",
-        content: `## 🔧 Ferramentas de Desenvolvimento
-
-### Docker Compose - Vantagens:
-- Ambiente padronizado para toda equipe
-- Isolamento de dependências
-- Facilita setup do backend + PostgreSQL
-- Reprodutibilidade entre ambientes
-
-### Prisma:
-- **Comando para migrations**: \`npx prisma migrate dev\`
-- **Sintaxe para buscar por ID**: \`prisma.produto.findUnique({ where: { id } })\`
-
-### Comandos Úteis:
-- \`docker-compose up\` - Inicia os serviços
-- \`docker-compose down\` - Para os serviços
-- \`npx prisma studio\` - Interface visual do banco`,
+        content: devTools,
         tags: ["docker", "prisma", "desenvolvimento", "migrations"],
       },
       {
         id: 24,
         title: "Ambientes e Deploy",
         description: "Ambientes de desenvolvimento e CI/CD",
-        content: `## 🚀 Ambientes e Deploy
-
-### Ambientes de Desenvolvimento:
-- **Desenvolvimento** - Máquina local
-- **Homologação** - Testes em cenário controlado similar ao real
-- **Produção** - Ambiente final para clientes
-
-### CI/CD (Integração/Entrega Contínua):
-**Objetivo**: Automatizar build, testes e deploy para maior agilidade e segurança
-
-### Benefícios do CI/CD:
-- Deploy automatizado
-- Testes contínuos
-- Redução de erros
-- Entrega mais rápida`,
+        content: deployEnvironments,
         tags: ["deploy", "ci-cd", "ambientes", "produção"],
       },
       {
         id: 25,
         title: "Autenticação e Segurança",
         description: "Sistema de autenticação com JWT",
-        content: `## 🔐 Autenticação e Segurança
-
-### Token JWT (JSON Web Token):
-**Função**: Cliente envia em requisições futuras para comprovar identidade, sem reenviar credenciais
-
-### Como Funciona:
-1. Usuário faz login com credenciais
-2. Servidor valida e gera JWT
-3. Cliente armazena o token
-4. Token é enviado em requisições futuras
-5. Servidor valida o token
-
-### Vantagens do JWT:
-- Stateless (sem estado no servidor)
-- Seguro e criptografado
-- Padrão da indústria
-- Escalável`,
+        content: authentication,
         tags: ["jwt", "autenticação", "segurança", "token"],
       },
       {
         id: 26,
         title: "Projeto da Cantina",
         description: "Módulos e fluxo do sistema de cantina",
-        content: `## 📊 Projeto da Cantina
-
-### Fluxo de Navegação:
-**Para cadastrar novo refrigerante**:
-\`Autenticação → Cadastros → Produtos\`
-
-### Módulos do Sistema:
-- **Autenticação** - Login/logout
-- **Dashboard** - Visão geral
-- **PDV** - Ponto de venda
-- **Cadastros** - Produtos, categorias, usuários
-- **Relatórios** - Dados analíticos
-
-### Funcionalidades Principais:
-- Gestão de produtos e categorias
-- Sistema de vendas (PDV)
-- Controle de usuários
-- Relatórios de vendas
-- Autenticação segura`,
+        content: cantinaProject,
         tags: ["cantina", "pdv", "cadastros", "relatórios", "dashboard"],
       },
       {
         id: 27,
         title: "API REST",
         description: "Padrões e verbos HTTP para APIs",
-        content: `## 🌍 API REST
-
-### Verbos HTTP por Ação:
-- **GET** - Buscar dados
-- **POST** - Criar novos recursos
-- **PATCH/PUT** - Atualizar recursos
-- **DELETE** - Remover recursos
-
-### Exemplos de Endpoints:
-- \`GET /produtos\` - Listar produtos
-- \`POST /produtos\` - Criar produto
-- \`PATCH /produtos/:id\` - Atualizar produto
-- \`DELETE /produtos/:id\` - Deletar produto
-
-### Princípios REST:
-- Stateless
-- Cacheable
-- Client-Server
-- Uniform Interface
-- Layered System`,
+        content: restApi,
         tags: ["api", "rest", "http", "endpoints", "verbos"],
       },
       {
         id: 28,
         title: "Conceitos-Chave",
         description: "Resumo dos principais conceitos da disciplina",
-        content: `## 💡 Conceitos-Chave Revisados
-
-1. **ORM** - Permite escrever queries em JavaScript/TypeScript sem SQL manual
-2. **Ambientes separados** - Testes seguros antes da produção  
-3. **Banco relacional** - Estrutura consistente para dados estruturados
-4. **Docker** - Padronização e isolamento de ambiente
-5. **JWT** - Autenticação stateless moderna
-6. **REST** - Padrão para APIs web escaláveis
-
-### Resumo da Arquitetura:
-- **Frontend** → **API REST** → **Backend NestJS** → **PostgreSQL**
-- **Docker** para containerização
-- **Prisma** como ORM
-- **JWT** para autenticação
-- **CI/CD** para deploy automatizado`,
+        content: keyConcepts,
         tags: ["conceitos", "resumo", "arquitetura", "tecnologias"],
+      },
+      {
+        id: 29,
+        title: "React Query",
+        description: "Gerenciamento de estado assíncrono e cache no frontend",
+        content: reactQuery,
+        tags: ["react-query", "frontend", "cache", "async", "mutations"],
+      },
+      {
+        id: 30,
+        title: "Frontend com React",
+        description: "Estrutura do frontend e comunicação client-server",
+        content: frontendReact,
+        tags: ["react", "frontend", "hooks", "components", "fetch-api"],
+      },
+      {
+        id: 31,
+        title: "Formulários e Validação",
+        description: "React Hook Form, Zod e validação de dados",
+        content: reactHookForm,
+        tags: ["react-hook-form", "zod", "validação", "formulários"],
       },
     ],
   },

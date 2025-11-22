@@ -11,7 +11,7 @@ import {
   getSubjectById,
   searchTopicsInSubject,
 } from "@/data/subjects";
-import { pieQuiz } from "@/data/quiz";
+import { pieQuiz, pieQuizProva2 } from "@/data/quiz";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { AnimatePresence, motion } from "framer-motion";
@@ -349,7 +349,7 @@ export default function Home() {
               {selectedSubject?.id === "projeto-integrador-extensionista" && (
                 <TabsContent value="questionario">
                   <Quiz
-                    questions={pieQuiz}
+                    questions={pieQuizProva2}
                     onComplete={(result) => {
                       toast({
                         title: "Questionário Concluído!",
